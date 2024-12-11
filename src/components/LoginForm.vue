@@ -9,20 +9,16 @@
       <input type="email" v-model="email"/>
     </div>
     <div class="form-example">
-      <button>Submit</button>
-    </div>
-    <hr>
-    <div>
-      <label>Your name is: {{ name }}</label>
-    </div>
-    <div>
-      <label>Your email is: {{ email }}</label>
+      <button type="submit">Submit</button>
     </div>
   </form>
 </template>
 
 <script setup>
 import {ref} from "vue";
+// import {useAuthStore} from "@/store/auth";
+
+// const authStore = useAuthStore();
 
 let name = ref("")
 let email = ref("")
