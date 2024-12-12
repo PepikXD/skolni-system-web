@@ -18,7 +18,23 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginForm
-  }
+  },
+
+  // {
+  //   path: '/user/:id',
+  //   name: 'user',
+  //   component: UserProfileView,
+  //   children: [
+  //     {
+  //       path: '/grades',
+  //       name: 'userGrades',
+  //       comment: UserGradesView
+  //     },
+  //     {
+  //
+  //     }
+  //   ]
+  // }
 ]
 
 
