@@ -6,19 +6,24 @@
   <div>
     <form class="form-example">
       <div class="form-example">
-        <label>Enter username: </label>
+        <label>username: </label>
         <input type="text" v-model="username"/>
       </div>
       <div class="form-example">
-        <label>Enter password: </label>
+        <label>password: </label>
         <input type="email" v-model="password"/>
       </div>
       <div class="form-example">
-        <label>Enter authority: </label>
-        <input type="text" v-model="authorities"/>
+        <label>authority: </label>
+        <select name="role" v-model="role">
+          <option value="admin">Admin</option>
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+          <option value="parent">Parent</option>
+        </select>
       </div>
       <div class="form-example">
-        <label>Enter id: </label>
+        <label>id: </label>
         <input type="number" v-model="id">
       </div>
       <button @click.prevent ="createUser">Create user</button>
@@ -27,26 +32,29 @@
     <button @click.prevent = "login">Login</button>
     <hr>
     <div>
-      <label>{{ displayCreateUser }}</label>
+      <label v-if=" createdResponse.id === '' "></label>
+      <label v-else>{{ displayCreateUser }}</label>
     </div>
   </div>
 </template>
 
 <script setup>
-import {ref, reactive, computed} from "vue";
+import {ref, computed, reactive} from "vue";
   import axios from "axios"
 
   let username = ref("");
   let password = ref("");
-  let authorities = ref("");
+  let role = ref("student");
   let id = ref("");
 
-  let createdResponse = reactive({});
+   let createdResponse = reactive({
+       username: "",
+       password: "",
+       role: "",
+       id:""
+   });
 
-
-  const displayCreateUser = computed(() => {
-    return createdResponse
-})
+  let displayCreateUser = computed( () => createdResponse);
 
   function createUser(){
 
@@ -54,13 +62,18 @@ import {ref, reactive, computed} from "vue";
     //     .then(res=>{console.log(res)})
     //     .catch(err=>{console.log(err)})
 
-    axios.post("http://localhost:8080/test/create", {
-      username:username.value,
-      password:password.value,
-      authorities:authorities.value,
-      id:id.value,})
-        .then(res => createdResponse = res.data)
-        .then(res => console.log(res))
+    axios.post("test/create", {
+        username:username.value,
+        password:password.value,
+        authorities:role.value,
+        id:id.value
+      })
+        .then(res => {
+          createdResponse.username = res.data.username
+          createdResponse.password = res.data.password
+          createdResponse.authorities = res.data.authorities
+          createdResponse.id = res.data.id;
+        })
   }
   function login(){
     axios.post("http://localhost:8080/login",{
